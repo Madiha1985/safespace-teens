@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const { verifyToken } = require("./utils/jwt");
 const Message = require("./models/Message");
 const roomRoutes = require("./routes/roomRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rooms",roomRoutes);
+app.use("/api/reviews", reviewRoutes);
+
 
 // Create HTTP server
 const server = http.createServer(app);
