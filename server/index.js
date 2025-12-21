@@ -12,6 +12,8 @@ const { verifyToken } = require("./utils/jwt");
 const Message = require("./models/Message");
 const roomRoutes = require("./routes/roomRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const journalRoutes = require("./routes/journalRoutes");
+
 
 const app = express();
 
@@ -31,6 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/rooms",roomRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/journal", journalRoutes);
 
 
 // Create HTTP server
