@@ -62,54 +62,94 @@ io.use((socket, next) => {
 });
 
 // Socket.io events
+
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id, "user:", socket.user.username);
 
+  // Track current room for this socket
+  socket.currentRoomId = null;
+
+  // helper to broadcast system messages
+  const emitSystemMessage = (roomId, text) => {
+    io.to(roomId).emit("message:new", {
+      roomId,
+      message: text,
+      username: "System",
+      userId: "system",
+      createdAt: new Date().toISOString(),
+      type: "system",
+    });
+  };
+
   socket.on("room:join", ({ roomId }) => {
     if (!roomId) return;
+
+    // leave previous room (if any)
+    if (socket.currentRoomId && socket.currentRoomId !== roomId) {
+      socket.leave(socket.currentRoomId);
+      emitSystemMessage(socket.currentRoomId, `${socket.user.username} left the room`);
+    }
+
     socket.join(roomId);
+    socket.currentRoomId = roomId;
+
     socket.emit("room:joined", { roomId });
+    emitSystemMessage(roomId, `${socket.user.username} has joined the room`);
+
     console.log(`${socket.user.username} joined room ${roomId}`);
   });
 
   socket.on("room:leave", ({ roomId }) => {
     if (!roomId) return;
+
     socket.leave(roomId);
+
+    if (socket.currentRoomId === roomId) {
+      socket.currentRoomId = null;
+    }
+
+    emitSystemMessage(roomId, `${socket.user.username} has left the room`);
     socket.emit("room:left", { roomId });
+
     console.log(`${socket.user.username} left room ${roomId}`);
   });
-  
+
   socket.on("message:send", async ({ roomId, message }) => {
-  try {
-    if (!roomId || !message) return;
+    try {
+      if (!roomId || !message) return;
 
-    const doc = await Message.create({
-      roomId,
-      userId: socket.user.id,
-      username: socket.user.username,
-      message,
-    });
+      const doc = await Message.create({
+        roomId,
+        userId: socket.user.id,
+        username: socket.user.username,
+        message,
+      });
 
-    const payload = {
-      id: doc._id,
-      roomId: doc.roomId,
-      userId: doc.userId,
-      username: doc.username,
-      message: doc.message,
-      createdAt: doc.createdAt,
-    };
+      const payload = {
+        id: doc._id,
+        roomId: doc.roomId,
+        userId: doc.userId,
+        username: doc.username,
+        message: doc.message,
+        createdAt: doc.createdAt,
+        type: "user",
+      };
 
-    io.to(roomId).emit("message:new", payload);
-  } catch (err) {
-    console.error("MESSAGE_SAVE_ERROR:", err.message);
-    socket.emit("message:error", { message: "Failed to save message." });
-  }
-});
+      io.to(roomId).emit("message:new", payload);
+    } catch (err) {
+      console.error("MESSAGE_SAVE_ERROR:", err.message);
+      socket.emit("message:error", { message: "Failed to save message." });
+    }
+  });
 
   socket.on("disconnect", () => {
+    if (socket.currentRoomId) {
+      emitSystemMessage(socket.currentRoomId, `${socket.user.username} disconnected`);
+    }
     console.log("Socket disconnected:", socket.id);
   });
 });
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

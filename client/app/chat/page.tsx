@@ -176,6 +176,8 @@ const isMine = (m: ChatMessage) => myUserId && m.userId && String(m.userId) === 
           ))} */}
 {messages.map((m, idx) => {
   const mine = isMine(m);
+  const system = (m as any).type === "system" || m.userId === "system";
+
 
   return (
     <div
@@ -186,7 +188,8 @@ const isMine = (m: ChatMessage) => myUserId && m.userId && String(m.userId) === 
     >
       <div className="flex items-baseline gap-2 justify-between">
         <span className="font-semibold">
-          {mine ? "You" : m.username}
+          {/* {mine ? "You" : m.username} */}
+           {system ? "System" : mine ? "You" : m.username}
         </span>
         <span className="text-xs opacity-60">
           {new Date(m.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
