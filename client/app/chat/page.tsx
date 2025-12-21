@@ -131,6 +131,10 @@ useEffect(() => {
   };
 if (!mounted) return null;
 
+const myUserId = user?.id;
+const isMine = (m: ChatMessage) => myUserId && m.userId && String(m.userId) === String(myUserId);
+
+
   return (
     <div className="max-w-5xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
       <aside className="border rounded-xl p-4">
@@ -160,7 +164,7 @@ if (!mounted) return null;
         <div className="font-bold mb-2">Room: {selectedRoom}</div>
 
         <div className="flex-1 overflow-y-auto border rounded-lg p-3 space-y-2">
-          {messages.map((m, idx) => (
+          {/* {messages.map((m, idx) => (
             <div key={m.id ?? `${m.createdAt}-${idx}`} className="text-sm">
               <span className="font-semibold">{m.username}</span>
               <span className="opacity-60">{new Date(m.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
@@ -169,7 +173,32 @@ if (!mounted) return null;
 
               <div>{m.message}</div>
             </div>
-          ))}
+          ))} */}
+{messages.map((m, idx) => {
+  const mine = isMine(m);
+
+  return (
+    <div
+      key={m.id ?? `${m.createdAt}-${idx}`}
+      className={`text-sm p-2 rounded-lg border max-w-[85%] ${
+        mine ? "ml-auto text-right" : "mr-auto"
+      }`}
+    >
+      <div className="flex items-baseline gap-2 justify-between">
+        <span className="font-semibold">
+          {mine ? "You" : m.username}
+        </span>
+        <span className="text-xs opacity-60">
+          {new Date(m.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
+        </span>
+      </div>
+      <div className="mt-1">{m.message}</div>
+    </div>
+  );
+})}
+
+
+
           {messages.length === 0 && (
             <p className="text-sm opacity-70">No messages yet. Say hi 👋</p>
           )}
