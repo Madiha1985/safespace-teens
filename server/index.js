@@ -145,6 +145,20 @@ io.on("connection", (socket) => {
     }
   });
 
+  // --- Drawing events (room-based) ---
+socket.on("draw:stroke", ({ roomId, stroke }) => {
+  if (!roomId || !stroke) return;
+
+  // broadcast to everyone else in the room (not including sender)
+  socket.to(roomId).emit("draw:stroke", { roomId, stroke });
+});
+
+socket.on("draw:clear", ({ roomId }) => {
+  if (!roomId) return;
+  io.to(roomId).emit("draw:clear", { roomId });
+});
+
+
   socket.on("disconnect", () => {
     if (socket.currentRoomId) {
       emitSystemMessage(socket.currentRoomId, `${socket.user.username} disconnected`);
