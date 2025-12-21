@@ -5,6 +5,7 @@ export type AuthUser = {
   age: number;
   interests: string[];
   role: string;
+  avatarUrl?: string;
 };
 
 export function saveAuth(token: string, user: AuthUser) {
