@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { getToken, getUser } from "@/lib/auth";
+import StarRating from "@/components/StarRating";
 
 type ReviewListItem = {
   id: string;
@@ -36,7 +37,7 @@ export default function ReadingHubPage() {
   // Create form state
   const [bookTitle, setBookTitle] = useState("");
   const [genre, setGenre] = useState("");
-  const [rating, setRating] = useState<number>(5);
+  const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
   useEffect(() => setMounted(true), []);
@@ -76,8 +77,8 @@ export default function ReadingHubPage() {
       setError("Please enter a book title and your review.");
       return;
     }
-    if (rating < 1 || rating > 5) {
-      setError("Rating must be between 1 and 5.");
+    if (rating < 1) {
+      alert("Please select a star rating.");
       return;
     }
 
@@ -99,7 +100,7 @@ export default function ReadingHubPage() {
       // reset form
       setBookTitle("");
       setGenre("");
-      setRating(5);
+      setRating(0);
       setReviewText("");
 
       // reload list
@@ -151,15 +152,12 @@ export default function ReadingHubPage() {
           </div>
 
           <div>
-            <label className="block text-sm mb-1">Rating (1–5)</label>
-            <input
-              type="number"
-              min={1}
-              max={5}
-              className="w-full border rounded-lg p-2"
-              value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-            />
+           
+            <div className="space-y-1">
+  <label className="block text-sm mb-1">Rating</label>
+  <StarRating value={rating} onChange={setRating} />
+</div>
+
           </div>
 
           <div className="md:col-span-4">
@@ -186,7 +184,7 @@ export default function ReadingHubPage() {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="font-bold">Latest reviews</h2>
-          <button onClick={load} className="text-sm underline opacity-80">
+          <button onClick={load} className="text-sm underline opacity-80 hover:opacity-90">
             Refresh
           </button>
         </div>
@@ -210,7 +208,8 @@ export default function ReadingHubPage() {
                   {r.genre ? `• ${r.genre}` : ""}
                 </span>
               </div>
-              <div className="text-sm opacity-70">{r.rating}/5</div>
+              <StarRating value={r.rating} readOnly />
+
             </div>
 
             <div className="text-sm opacity-70 mt-1">

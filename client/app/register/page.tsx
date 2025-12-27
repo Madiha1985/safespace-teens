@@ -53,7 +53,7 @@ if (!username.trim() || !email.trim() || !password.trim()) {
       });
 
       saveAuth(data.token, data.user);
-      router.push("/chat");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.message ?? "Registration failed");
     } finally {

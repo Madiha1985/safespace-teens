@@ -44,7 +44,7 @@ if (!emailOrUsername.trim() || !password.trim()) {
       });
 
       saveAuth(data.token, data.user);
-      router.push("/chat");
+      router.push("/dashboard");
     } catch (err: any) {
       setError("Login failed.Please check your details and try again.");
     } finally {

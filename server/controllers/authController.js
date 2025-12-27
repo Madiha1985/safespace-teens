@@ -98,6 +98,8 @@ exports.login = async (req, res) => {
         age: user.age,
         interests: user.interests,
         role: user.role,
+        avatarUrl: user.avatarUrl || ""
+
       },
     });
   } catch (err) {
