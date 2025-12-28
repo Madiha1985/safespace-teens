@@ -46,12 +46,18 @@ export default function Navbar() {
     router.push("/login");
   };
 
-  const isActive = (path: string) => (pathname === path ? "font-semibold underline" : "");
+  // const isActive = (path: string) => (pathname === path ? "font-semibold underline" : "");
+  const isActive = (path: string) =>
+  pathname === path
+    ? "font-semibold underline underline-offset-4 text-purple-200"
+    : "hover:text-purple-200 transition";
+
 
   return (
-    <nav className="border-b px-4 py-3 flex items-center justify-between">
+   <nav className="bg-purple-600 text-white px-4 py-3 flex items-center justify-between">
+
       <div className="flex items-center gap-4">
-        <Link href="/dashboard" className="font-bold">
+        <Link href="/dashboard" className="font-bold text-white hover:text-purple-200 transition">
           SafeSpace Teens
         </Link>
 
@@ -74,13 +80,13 @@ export default function Navbar() {
               <img
                 src={user.avatarUrl}
                 alt="Avatar"
-                className="w-8 h-8 rounded-full border"
+                className="w-8 h-8 rounded-full border-2 border-white"
               />
             ) : null}
 
-            <span className="text-sm opacity-70">{user?.username ?? "User"}</span>
+            <span className="text-sm font-medium text-white">{user?.username ?? "User"}</span>
 
-            <button onClick={handleLogout} className="border rounded px-3 py-1 text-sm">
+            <button onClick={handleLogout} className="bg-white text-purple-700 px-3 py-1 rounded text-sm font-medium hover:bg-purple-100 transition">
               Logout
             </button>
           </>
