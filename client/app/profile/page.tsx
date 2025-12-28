@@ -21,6 +21,18 @@ type UpdateAvatarResponse = {
   };
 };
 
+const INTEREST_OPTIONS = [
+  "math",
+  "science",
+  "english",
+  "coding",
+  "reading",
+  "art",
+  "drawing",
+  "music",
+  "sports",
+];
+
 export default function ProfilePage() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -30,6 +42,9 @@ export default function ProfilePage() {
 
   const [selected, setSelected] = useState<string>(user?.avatarUrl || "");
   const [status, setStatus] = useState<string | null>(null);
+  const [interests, setInterests] = useState<string[]>(user?.interests ?? []);
+const [interestStatus, setInterestStatus] = useState<string | null>(null);
+
 
   useEffect(() => setMounted(true), []);
   useEffect(() => {
@@ -40,6 +55,11 @@ export default function ProfilePage() {
   useEffect(() => {
     setSelected(user?.avatarUrl || "");
   }, [user?.avatarUrl]);
+
+  useEffect(() => {
+  setInterests(user?.interests ?? []);
+}, [user?.interests]);
+
 
   const saveAvatar = async () => {
     if (!token) return;
@@ -64,6 +84,30 @@ export default function ProfilePage() {
       setStatus(err.message ?? "Failed to update avatar");
     }
   };
+  const toggleInterest = (value: string) => {
+  setInterests((prev) =>
+    prev.includes(value) ? prev.filter((x) => x !== value) : [...prev, value]
+  );
+};
+
+const saveInterests = async () => {
+  if (!token) return;
+  setInterestStatus(null);
+
+  try {
+    const data = await apiFetch<{ message: string; user: any }>(
+      "/api/users/me/interests",
+      { method: "PUT", body: JSON.stringify({ interests }) },
+      token
+    );
+
+    saveAuth(token, data.user);
+    setInterestStatus("Interests updated ✅");
+  } catch (err: any) {
+    setInterestStatus(err.message ?? "Failed to update interests");
+  }
+};
+
 
   if (!mounted) return null;
 
@@ -108,6 +152,44 @@ export default function ProfilePage() {
           {status && <p className="text-sm opacity-80">{status}</p>}
         </div>
       </section>
+
+      <section className="border rounded-xl p-4 space-y-4">
+  <div>
+    <div className="font-bold">Your interests</div>
+    <p className="text-sm opacity-70">
+      Pick a few so the dashboard can recommend rooms and activities.
+    </p>
+  </div>
+
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+    {INTEREST_OPTIONS.map((i) => (
+      <label
+        key={i}
+        className="flex items-center gap-2 border rounded-lg px-3 py-2 hover:opacity-90"
+      >
+        <input
+          type="checkbox"
+          checked={interests.includes(i)}
+          onChange={() => toggleInterest(i)}
+        />
+        <span className="text-sm">{i}</span>
+      </label>
+    ))}
+  </div>
+
+  <div className="flex items-center gap-3">
+    <button
+      className="border rounded-lg px-4 py-2 font-semibold"
+      onClick={saveInterests}
+      type="button"
+    >
+      Save interests
+    </button>
+    {interestStatus && <p className="text-sm opacity-80">{interestStatus}</p>}
+  </div>
+</section>
+
+      
     </div>
   );
 }

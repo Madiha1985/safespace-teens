@@ -1,4 +1,5 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
@@ -31,6 +32,8 @@ const ROOMS = [
 
 export default function ChatPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
 
   const socketRef = useRef<Socket | null>(null);
   const currentRoomRef = useRef<string | null>(null);
@@ -53,6 +56,14 @@ export default function ChatPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+useEffect(() => {
+  if (!mounted) return;
+
+  const roomFromUrl = searchParams.get("room");
+  if (roomFromUrl && ROOMS.some((r) => r.id === roomFromUrl)) {
+    setSelectedRoom(roomFromUrl);
+  }
+}, [mounted, searchParams]);
 
   // Keep current room ref updated
   useEffect(() => {

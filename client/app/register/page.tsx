@@ -18,6 +18,26 @@ type RegisterResponse = {
   };
 };
 
+function friendlyRegisterError(msg: string) {
+  const lower = (msg || "").toLowerCase();
+
+  if (lower.includes("password") && (lower.includes("8") || lower.includes("eight"))) {
+    return "Password must be at least 8 characters.";
+  }
+  if (lower.includes("age") && (lower.includes("12") || lower.includes("17"))) {
+    return "Age must be between 12 and 17.";
+  }
+  if (lower.includes("email") && lower.includes("valid")) {
+    return "Please enter a valid email address.";
+  }
+  if (lower.includes("already") && (lower.includes("email") || lower.includes("username") || lower.includes("user"))) {
+    return "That email or username is already in use.";
+  }
+
+  return "Registration failed. Please try again.";
+}
+
+
 export default function RegisterPage() {
   const router = useRouter();
 
@@ -39,6 +59,12 @@ if (!username.trim() || !email.trim() || !password.trim()) {
   setLoading(false);
   return;
 }
+if (password.trim().length < 8) {
+  setError("Password must be at least 8 characters.");
+  setLoading(false);
+  return;
+}
+
 
     try {
       const data = await apiFetch<RegisterResponse>("/api/auth/register", {
@@ -53,9 +79,10 @@ if (!username.trim() || !email.trim() || !password.trim()) {
       });
 
       saveAuth(data.token, data.user);
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (err: any) {
-      setError(err.message ?? "Registration failed");
+      setError(friendlyRegisterError(err.message ?? ""));
+
     } finally {
       setLoading(false);
     }
@@ -119,7 +146,7 @@ if (!username.trim() || !email.trim() || !password.trim()) {
 
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <button disabled={loading} className="w-full border rounded-lg p-2 font-semibold">
+        <button disabled={loading} className="w-full rounded-lg p-2 font-semibold bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60">
           {loading ? "Creating..." : "Create account"}
         </button>
       </form>
