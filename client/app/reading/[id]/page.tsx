@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { getToken, getUser } from "@/lib/auth";
+import StarRating from "@/components/StarRating";
 
 type Comment = {
   id: string;
@@ -125,7 +126,8 @@ if (!id || id === "undefined" || id === "null") return;
           <section className="border rounded-xl p-4">
             <div className="flex items-baseline justify-between gap-3">
               <h1 className="text-2xl font-bold">{review.bookTitle}</h1>
-              <div className="text-sm opacity-70">{review.rating}/5</div>
+              <StarRating value={review.rating} readOnly />
+
             </div>
 
             <div className="text-sm opacity-70 mt-1">
@@ -142,7 +144,7 @@ if (!id || id === "undefined" || id === "null") return;
 
             <form onSubmit={addComment} className="space-y-2">
               <textarea
-                className="w-full border rounded-lg p-2 min-h-22.5"
+                className="w-full border rounded-lg p-2 min-h-32"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder="Write a supportive comment..."
