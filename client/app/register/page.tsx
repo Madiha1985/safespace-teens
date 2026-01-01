@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { saveAuth } from "@/lib/auth";
+import AuthCard from "@/components/AuthCard";
 
 type RegisterResponse = {
   message: string;
@@ -89,9 +90,7 @@ if (password.trim().length < 8) {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-xl">
-      <h2 className="text-xl font-bold mb-4">Create account</h2>
-
+    <AuthCard title="Create account" subtitle="Start learning and sharing safely">
       <form onSubmit={onRegister} className="space-y-3">
         <div>
           <label className="block text-sm mb-1">Username</label>
@@ -150,6 +149,6 @@ if (password.trim().length < 8) {
           {loading ? "Creating..." : "Create account"}
         </button>
       </form>
-    </div>
+    </AuthCard>
   );
 }

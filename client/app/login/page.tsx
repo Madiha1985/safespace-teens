@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api";
 import { saveAuth } from "@/lib/auth";
+import AuthCard from "@/components/AuthCard";
 
 type LoginResponse = {
   message: string;
@@ -53,10 +54,8 @@ if (!emailOrUsername.trim() || !password.trim()) {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 border rounded-xl">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
-
-      <form onSubmit={onLogin} className="space-y-3">
+    <AuthCard title="Welcome back" subtitle="Login to SafeSpace Teens">
+      <form onSubmit={onLogin} className="space-y-3 ">
         <div>
           <label className="block text-sm mb-1">Email or Username</label>
           <input
@@ -90,7 +89,7 @@ if (!emailOrUsername.trim() || !password.trim()) {
 
         <button
           disabled={loading}
-          className="w-full border rounded-lg p-2 font-semibold"
+          className="w-full border rounded-lg p-2 font-semibold bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-60"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -101,8 +100,6 @@ if (!emailOrUsername.trim() || !password.trim()) {
     Create one
   </a>
 </p>
-
-     
-    </div>
+    </AuthCard>
   );
 }
