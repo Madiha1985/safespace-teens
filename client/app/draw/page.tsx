@@ -200,7 +200,7 @@ export default function DrawPage() {
     <div className="max-w-6xl mx-auto mt-6 p-4 space-y-4">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Shared Drawing Board</h1>
+          <h1 className="text-2xl font-bold text-purple-700">Shared Drawing Board</h1>
           <p className="opacity-70 text-sm">
             Draw together in a room (pen, eraser, clear). Great for explaining ideas.
           </p>
@@ -218,9 +218,12 @@ export default function DrawPage() {
           {ROOMS.map((r) => (
             <button
               key={r.id}
-              className={`w-full text-left p-2 rounded-lg border ${
-                selectedRoom === r.id ? "font-semibold" : ""
-              }`}
+              className={`w-full text-left px-3 py-2 rounded-lg border transition ${
+  selectedRoom === r.id
+    ? "bg-purple-100 text-purple-800 font-semibold border-purple-200"
+    : "hover:bg-purple-50 hover:border-purple-200"
+}`}
+
               onClick={() => setSelectedRoom(r.id)}
             >
               {r.label}
@@ -232,15 +235,19 @@ export default function DrawPage() {
 
             <div className="flex gap-2">
               <button
-                className={`border rounded-lg px-3 py-1 ${mode === "pen" ? "font-semibold" : ""}`}
+               className={`border rounded-lg px-3 py-1 transition ${
+  mode === "pen" ? "bg-purple-600 text-white border-purple-600" : "hover:bg-purple-50"
+}`}
+
                 onClick={() => setMode("pen")}
               >
                 Pen
               </button>
               <button
-                className={`border rounded-lg px-3 py-1 ${
-                  mode === "eraser" ? "font-semibold" : ""
-                }`}
+                className={`border rounded-lg px-3 py-1 transition ${
+  mode === "eraser" ? "bg-purple-600 text-white border-purple-600" : "hover:bg-purple-50"
+}`}
+
                 onClick={() => setMode("eraser")}
               >
                 Eraser
@@ -255,11 +262,13 @@ export default function DrawPage() {
                 max={16}
                 value={size}
                 onChange={(e) => setSize(Number(e.target.value))}
-                className="w-full"
+                className="w-full accent-purple-600"
               />
             </div>
 
-            <button className="border rounded-lg px-3 py-2 font-semibold" onClick={onClear}>
+            <button className="bg-purple-600 text-white rounded-lg px-3 py-2 font-semibold hover:bg-purple-700 transition disabled:opacity-60" 
+            onClick={onClear} 
+            disabled={!selectedRoom}>
               Clear board
             </button>
 
@@ -272,14 +281,14 @@ export default function DrawPage() {
         </aside>
 
         <section className="md:col-span-3 border rounded-xl p-4">
-          <div className="font-bold mb-2">
+          <div className="font-bold mb-2 text-purple-700">
             Room: {selectedRoom ?? "— (choose a room)"}
           </div>
 
-          <div className="border rounded-lg overflow-hidden">
+          <div className="border rounded-lg overflow-hidden bg-white">
             <canvas
               ref={canvasRef}
-              className="w-full h-105 bg-white touch-none"
+              className="w-full h-96 bg-white touch-none"
               onPointerDown={onPointerDown}
               onPointerMove={onPointerMove}
               onPointerUp={onPointerUp}

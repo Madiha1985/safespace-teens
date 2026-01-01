@@ -115,7 +115,7 @@ const saveInterests = async () => {
     <div className="max-w-4xl mx-auto mt-6 p-4 space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Profile</h1>
+          <h1 className="text-2xl font-bold text-purple-700">Profile</h1>
           <p className="text-sm opacity-70">Choose a preset avatar.</p>
         </div>
         <div className="text-sm opacity-70 text-right">
@@ -124,10 +124,11 @@ const saveInterests = async () => {
           </div>
           <div>{user?.email ?? ""}</div>
         </div>
+        
       </header>
 
       <section className="border rounded-xl p-4 space-y-4">
-        <div className="font-bold">Pick an avatar</div>
+        <div className="font-bold text-purple-700">Pick an avatar</div>
 
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
           {AVATARS.map((src) => (
@@ -146,7 +147,7 @@ const saveInterests = async () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="border rounded-lg px-4 py-2 font-semibold" onClick={saveAvatar}>
+          <button className="bg-purple-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-purple-700 transition" onClick={saveAvatar}>
             Save avatar
           </button>
           {status && <p className="text-sm opacity-80">{status}</p>}
@@ -155,7 +156,7 @@ const saveInterests = async () => {
 
       <section className="border rounded-xl p-4 space-y-4">
   <div>
-    <div className="font-bold">Your interests</div>
+    <div className="font-bold text-purple-700">Your interests</div>
     <p className="text-sm opacity-70">
       Pick a few so the dashboard can recommend rooms and activities.
     </p>
@@ -165,10 +166,11 @@ const saveInterests = async () => {
     {INTEREST_OPTIONS.map((i) => (
       <label
         key={i}
-        className="flex items-center gap-2 border rounded-lg px-3 py-2 hover:opacity-90"
+        className="flex items-center gap-2 border rounded-lg px-3 py-2 hover:opacity-90 hover:bg-purple-100"
       >
         <input
           type="checkbox"
+          className="accent-purple-600"
           checked={interests.includes(i)}
           onChange={() => toggleInterest(i)}
         />
@@ -179,7 +181,7 @@ const saveInterests = async () => {
 
   <div className="flex items-center gap-3">
     <button
-      className="border rounded-lg px-4 py-2 font-semibold"
+      className="bg-purple-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-purple-700 transition"
       onClick={saveInterests}
       type="button"
     >
