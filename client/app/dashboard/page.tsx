@@ -134,7 +134,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="text-sm opacity-70 text-right">
-          Welcome, <span className="font-semibold">{user?.username ?? "—"}</span>
+          Welcome, <span className="font-semibold text-purple-700">{user?.username ?? "—"}</span>
         </div>
       </header>
 

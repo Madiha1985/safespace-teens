@@ -116,7 +116,7 @@ export default function ReadingHubPage() {
     <div className="max-w-5xl mx-auto mt-6 p-4 space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Reading Hub</h1>
+          <h1 className="text-2xl font-bold text-purple-700">Reading Hub</h1>
           <p className="opacity-70 text-sm">
             Share what you read, write reviews, and learn from your peers.
           </p>
@@ -128,13 +128,13 @@ export default function ReadingHubPage() {
 
       {/* Create Review */}
       <section className="border rounded-xl p-4">
-        <h2 className="font-bold mb-3">Write a review</h2>
+        <h2 className="font-bold mb-3 text-purple-700">Write a review</h2>
 
         <form onSubmit={createReview} className="grid grid-cols-1 md:grid-cols-4 gap-3">
           <div className="md:col-span-2">
             <label className="block text-sm mb-1">Book title</label>
             <input
-              className="w-full border rounded-lg p-2"
+              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-200 hover:bg-purple-50"
               value={bookTitle}
               onChange={(e) => setBookTitle(e.target.value)}
               placeholder="e.g., Harry Potter and the Philosopher’s Stone"
@@ -144,7 +144,7 @@ export default function ReadingHubPage() {
           <div>
             <label className="block text-sm mb-1">Genre</label>
             <input
-              className="w-full border rounded-lg p-2"
+              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-200 hover:bg-purple-50"
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
               placeholder="Fantasy"
@@ -163,7 +163,7 @@ export default function ReadingHubPage() {
           <div className="md:col-span-4">
             <label className="block text-sm mb-1">Your review</label>
             <textarea
-              className="w-full border rounded-lg p-2 min-h-25"
+              className="w-full border rounded-lg p-2 min-h-25 focus:outline-none focus:ring-2 focus:ring-purple-200 hover:bg-purple-50"
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               placeholder="What did you like? What did you learn? Would you recommend it?"
@@ -173,7 +173,7 @@ export default function ReadingHubPage() {
           {error && <p className="text-sm text-red-600 md:col-span-4">{error}</p>}
 
           <div className="md:col-span-4">
-            <button className="border rounded-lg px-4 py-2 font-semibold">
+            <button className="bg-purple-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-purple-700 transition">
               Post review
             </button>
           </div>
@@ -183,8 +183,8 @@ export default function ReadingHubPage() {
       {/* Reviews list */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-bold">Latest reviews</h2>
-          <button onClick={load} className="text-sm underline opacity-80 hover:opacity-90">
+          <h2 className="font-bold text-purple-700">Latest reviews</h2>
+          <button onClick={load} className="text-sm underline opacity-80 hover:text-purple-700">
             Refresh
           </button>
         </div>
@@ -199,7 +199,7 @@ export default function ReadingHubPage() {
           <Link
             key={r.id}
             href={`/reading/${r.id}`}
-            className="block border rounded-xl p-4 hover:opacity-90"
+            className="block border rounded-xl p-4 hover:bg-purple-50"
           >
             <div className="flex items-baseline justify-between gap-3">
               <div className="font-bold">
@@ -214,8 +214,16 @@ export default function ReadingHubPage() {
 
             <div className="text-sm opacity-70 mt-1">
               by <span className="font-semibold">{r.username}</span> •{" "}
-              {new Date(r.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"} •{" "}
-              {r.commentsCount} comments
+              {new Date(r.createdAt).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  })} •{" "}
+  {new Date(r.createdAt).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  })} •{" "}
+  {r.commentsCount} comments
             </div>
 
             <p className="mt-3 text-sm">

@@ -110,11 +110,11 @@ if (!id || id === "undefined" || id === "null") return;
   return (
     <div className="max-w-3xl mx-auto mt-6 p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <Link href="/reading" className="underline text-sm opacity-80">
+        <Link href="/reading" className="underline text-sm opacity-80 hover:text-purple-700">
           ← Back to Reading Hub
         </Link>
         <div className="text-sm opacity-70">
-          Signed in as <span className="font-semibold">{user?.username ?? "—"}</span>
+          Signed in as <span className="font-semibold text-purple-700">{user?.username ?? "—"}</span>
         </div>
       </div>
 
@@ -125,7 +125,7 @@ if (!id || id === "undefined" || id === "null") return;
         <>
           <section className="border rounded-xl p-4">
             <div className="flex items-baseline justify-between gap-3">
-              <h1 className="text-2xl font-bold">{review.bookTitle}</h1>
+              <h1 className="text-2xl font-bold text-purple-700">{review.bookTitle}</h1>
               <StarRating value={review.rating} readOnly />
 
             </div>
@@ -133,23 +133,32 @@ if (!id || id === "undefined" || id === "null") return;
             <div className="text-sm opacity-70 mt-1">
               by <span className="font-semibold">{review.username}</span>{" "}
               {review.genre ? `• ${review.genre}` : ""} •{" "}
-              {new Date(review.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
+              {new Date(review.createdAt).toLocaleDateString("en-GB", {
+                 day: "numeric",
+                 month: "short",
+                 year: "numeric",
+              })} •{" "}
+               {new Date(review.createdAt).toLocaleTimeString([], {
+                  hour: "2-digit",
+                 minute: "2-digit",
+                })}
+
             </div>
 
             <p className="mt-3 whitespace-pre-wrap">{review.reviewText}</p>
           </section>
 
           <section className="border rounded-xl p-4">
-            <h2 className="font-bold mb-3">Comments ({review.comments.length})</h2>
+            <h2 className="font-bold mb-3 text-purple-700">Comments ({review.comments.length})</h2>
 
             <form onSubmit={addComment} className="space-y-2">
               <textarea
-                className="w-full border rounded-lg p-2 min-h-32"
+                className="w-full border rounded-lg p-2 min-h-32 focus:outline-none focus:ring-2 focus:ring-purple-200"
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder="Write a supportive comment..."
               />
-              <button className="border rounded-lg px-4 py-2 font-semibold">
+              <button className="border rounded-lg px-4 py-2 font-semibold bg-purple-600 text-white hover:bg-purple-700">
                 Post comment
               </button>
             </form>
@@ -164,7 +173,15 @@ if (!id || id === "undefined" || id === "null") return;
                   <div className="flex items-baseline justify-between gap-3">
                     <span className="font-semibold">{c.username}</span>
                     <span className="text-xs opacity-60">
-                      {new Date(c.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
+                     {new Date(c.createdAt).toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "short",
+                       })}{" "}
+                      {new Date(c.createdAt).toLocaleTimeString([], {
+                       hour: "2-digit",
+                       minute: "2-digit",
+                         })}
+
                     </span>
                   </div>
                   <p className="mt-2 whitespace-pre-wrap">{c.text}</p>
