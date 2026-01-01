@@ -122,7 +122,7 @@ export default function ReadingHubPage() {
           </p>
         </div>
         <div className="text-sm opacity-70">
-          Signed in as <span className="font-semibold">{user?.username ?? "—"}</span>
+          Signed in as <span className="font-semibold text-purple-700">{user?.username ?? "—"}</span>
         </div>
       </header>
 

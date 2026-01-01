@@ -153,30 +153,34 @@ useEffect(() => {
 
     setText("");
   };
+const selectedRoomLabel = ROOMS.find((r) => r.id === selectedRoom)?.label ?? selectedRoom;
 
-  // ✅ IMPORTANT: return AFTER hooks are declared (safe)
+  //  IMPORTANT: return AFTER hooks are declared (safe)
   if (!mounted) return null;
 
   return (
     <div className="max-w-5xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
       <aside className="border rounded-xl p-4">
-        <div className="font-bold mb-2">Rooms</div>
+        <div className="font-bold mb-2 text-purple-700">Rooms</div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 ">
           {ROOMS.map((r) => (
             <button
               key={r.id}
               onClick={() => setSelectedRoom(r.id)}
-              className={`w-full text-left p-2 rounded-lg border ${
-                selectedRoom === r.id ? "font-semibold" : ""
-              }`}
+             className={`w-full text-left px-3 py-2 rounded-lg transition ${
+  selectedRoom === r.id
+    ? "bg-purple-100 text-purple-800 font-semibold border border-purple-200"
+    : "hover:bg-purple-50"
+}`}
+
             >
               {r.label}
             </button>
           ))}
         </div>
 
-        <div className="text-xs mt-4 opacity-70">
+        <div className="text-xs mt-4 opacity-70 ">
           Status: {status}
           <br />
           User: {user?.username ?? "—"}
@@ -187,15 +191,15 @@ useEffect(() => {
         {!selectedRoom ? (
           <div className="flex flex-1 items-center justify-center text-center">
             <div>
-              <h2 className="text-xl font-bold mb-2">Welcome 👋</h2>
+              <h2 className="text-xl font-bold mb-2 text-purple-700">Welcome 👋</h2>
               <p className="opacity-70">Choose a room from the left to start chatting.</p>
             </div>
           </div>
         ) : (
           <>
-            <div className="font-bold mb-2">Room: {selectedRoom}</div>
+            <div className="font-bold mb-2 text-purple-700">Room: {selectedRoomLabel}</div>
 
-            <div className="flex-1 overflow-y-auto border rounded-lg p-3 space-y-2">
+           <div className="flex-1 overflow-y-auto rounded-lg p-3 space-y-2 bg-white border">
               {messages.map((m, idx) => {
                 const mine = isMine(m);
                 const system = m.type === "system" || m.userId === "system";
@@ -203,20 +207,21 @@ useEffect(() => {
                 return (
                   <div
                     key={m.id ?? `${m.createdAt}-${idx}`}
-                    className={`text-sm p-2 rounded-lg border max-w-[85%] ${
-                      system
-                        ? "mx-auto text-center opacity-70"
-                        : mine
-                        ? "ml-auto text-right"
-                        : "mr-auto"
-                    }`}
+                   className={`text-sm rounded-xl px-3 py-2 max-w-[85%] ${
+  system
+    ? "mx-auto text-center text-zinc-600 bg-zinc-50 border"
+    : mine
+    ? "ml-auto text-right bg-purple-600 text-white"
+    : "mr-auto bg-zinc-100 text-zinc-900"
+}`}
+
                   >
                     <div className="flex items-baseline gap-2 justify-between">
                       <span className="font-semibold">
                         {system ? "System" : mine ? "You" : m.username}
                       </span>
                       <span className="text-xs opacity-60">
-                        {new Date(m.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
+                       {new Date(m.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </span>
                     </div>
                     <div className="mt-1">{m.message}</div>
@@ -231,7 +236,7 @@ useEffect(() => {
 
             <div className="mt-3 flex gap-2">
               <input
-                className="flex-1 border rounded-lg p-2"
+                className="flex-1 border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-200 "
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="Type a message..."
@@ -239,7 +244,7 @@ useEffect(() => {
                   if (e.key === "Enter") sendMessage();
                 }}
               />
-              <button className="border rounded-lg px-4 font-semibold" onClick={sendMessage}>
+              <button className="border rounded-lg px-4 font-semibold bg-purple-600 text-white hover:bg-purple-700 " onClick={sendMessage}>
                 Send
               </button>
             </div>

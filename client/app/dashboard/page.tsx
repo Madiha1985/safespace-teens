@@ -105,13 +105,13 @@ export default function DashboardPage() {
     <div className="max-w-5xl mx-auto mt-6 p-4 space-y-8">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-purple-700">Dashboard</h1>
           <p className="text-sm opacity-70">
             Choose what you want to do today — and try something recommended for you.
           </p>
 
           {/* Interests chips */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-3 bg-purple-100 text-purple-700">
             {interests.length > 0 ? (
               interests.map((i) => (
                 <span
@@ -140,10 +140,10 @@ export default function DashboardPage() {
 
       {/* Recommended */}
       <section className="space-y-3">
-        <h2 className="text-lg font-bold">Recommended for you</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <h2 className="text-lg font-bold text-purple-700">Recommended for you</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
           {recommendations().map((r) => (
-            <Link key={r.title} href={r.href} className="border rounded-xl p-4 hover:opacity-90">
+            <Link key={r.title} href={r.href} className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
               <div className="font-bold">{r.title}</div>
               <p className="text-sm opacity-70 mt-1">{r.desc}</p>
             </Link>
@@ -153,13 +153,13 @@ export default function DashboardPage() {
 
       {/* Quick start rooms */}
       <section className="space-y-3">
-        <h2 className="text-lg font-bold">Quick start rooms</h2>
+        <h2 className="text-lg font-bold text-purple-700">Quick start rooms</h2>
         <div className="flex flex-wrap gap-2">
           {quickRooms.map((r) => (
             <Link
               key={r.id}
               href={`/chat?room=${encodeURIComponent(r.id)}`}
-              className="border rounded-full px-4 py-2 text-sm hover:opacity-90"
+              className="border rounded-full px-4 py-2 text-sm hover:border-purple-400 hover:bg-purple-50 transition"
             >
               {r.label}
             </Link>
@@ -168,39 +168,39 @@ export default function DashboardPage() {
       </section>
 
       {/* Main cards */}
-      <section className="space-y-3">
-        <h2 className="text-lg font-bold">Explore</h2>
+      <section className="space-y-3 ">
+        <h2 className="text-lg font-bold text-purple-700 ">Explore</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Link href="/chat" className="border rounded-xl p-4 hover:opacity-90">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+          <Link href="/chat" className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
             <div className="font-bold">Chatrooms</div>
             <p className="text-sm opacity-70 mt-1">
               Join study rooms and talk with peers safely.
             </p>
           </Link>
 
-          <Link href="/reading" className="border rounded-xl p-4 hover:opacity-90">
+          <Link href="/reading" className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
             <div className="font-bold">Reading Hub</div>
             <p className="text-sm opacity-70 mt-1">
               Post book reviews and comment on others.
             </p>
           </Link>
 
-          <Link href="/journal" className="border rounded-xl p-4 hover:opacity-90">
+          <Link href="/journal" className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
             <div className="font-bold">Feeling Journal</div>
             <p className="text-sm opacity-70 mt-1">
               Private mood tracking and reflections.
             </p>
           </Link>
 
-          <Link href="/draw" className="border rounded-xl p-4 hover:opacity-90">
+          <Link href="/draw" className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
             <div className="font-bold">Drawing Board</div>
             <p className="text-sm opacity-70 mt-1">
               Draw together to explain ideas or be creative.
             </p>
           </Link>
 
-          <Link href="/profile" className="border rounded-xl p-4 hover:opacity-90">
+          <Link href="/profile" className="border rounded-xl p-4 hover:border-purple-400 hover:bg-purple-50 transition">
             <div className="font-bold">Profile</div>
             <p className="text-sm opacity-70 mt-1">
               Update interests and choose your avatar.
