@@ -35,7 +35,7 @@ export default function DrawPage() {
 
   const [mode, setMode] = useState<"pen" | "eraser">("pen");
   const [size, setSize] = useState(4);
-  const [status, setStatus] = useState("Not connected");
+  const [status, setStatus] = useState<"connected" | "connecting" | "error">("connecting");
 
   const token = useMemo(() => (typeof window !== "undefined" ? getToken() : null), []);
   const user = useMemo(() => (typeof window !== "undefined" ? getUser() : null), []);
@@ -77,8 +77,11 @@ export default function DrawPage() {
       const s = io(SOCKET_URL, { auth: { token } });
       socketRef.current = s;
 
-      s.on("connect", () => setStatus("Socket connected"));
-      s.on("connect_error", (err) => setStatus(`Socket error: ${err.message}`));
+    setStatus("connecting");
+
+s.on("connect", () => setStatus("connected"));
+s.on("connect_error", () => setStatus("error"));
+
 
       // receive strokes
       s.on("draw:stroke", ({ stroke }: { roomId: string; stroke: Stroke }) => {
@@ -208,7 +211,25 @@ export default function DrawPage() {
         <div className="text-sm opacity-70 text-right">
           User: <span className="font-semibold">{user?.username ?? "—"}</span>
           <br />
-          Status: {status}
+         <div className="flex items-center gap-2 justify-end">
+  <span
+    className={`inline-block w-2 h-2 rounded-full ${
+      status === "connected"
+        ? "bg-green-500"
+        : status === "connecting"
+        ? "bg-yellow-400"
+        : "bg-red-500"
+    }`}
+  />
+  <span className="text-xs opacity-70">
+    {status === "connected"
+      ? "Connected"
+      : status === "connecting"
+      ? "Connecting…"
+      : "Connection error"}
+  </span>
+</div>
+
         </div>
       </header>
 
