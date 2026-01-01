@@ -126,7 +126,7 @@ export default function JournalPage() {
     <div className="max-w-5xl mx-auto mt-6 p-4 space-y-6">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Feeling Journal</h1>
+          <h1 className="text-2xl font-bold text-purple-700">Feeling Journal</h1>
           <p className="text-sm opacity-70">
             Private space for your thoughts. Only you can see your entries.
           </p>
@@ -137,13 +137,13 @@ export default function JournalPage() {
       </header>
 
       <section className="border rounded-xl p-4">
-        <h2 className="font-bold mb-3">{editingId ? "Edit entry" : "New entry"}</h2>
+        <h2 className="font-bold mb-3 text-purple-700">{editingId ? "Edit entry" : "New entry"}</h2>
 
         <form onSubmit={submit} className="space-y-3">
           <div>
             <label className="block text-sm mb-1">Mood</label>
             <select
-              className="border rounded-lg p-2"
+              className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-200"
               value={mood}
               onChange={(e) => setMood(e.target.value as Entry["mood"])}
             >
@@ -158,7 +158,7 @@ export default function JournalPage() {
           <div>
             <label className="block text-sm mb-1">Entry</label>
             <textarea
-              className="w-full border rounded-lg p-2 min-h-30"
+              className="w-full border rounded-lg p-2 h-32 focus:outline-none focus:ring-2 focus:ring-purple-200"
               value={entryText}
               onChange={(e) => setEntryText(e.target.value)}
               placeholder="Write what you feel or what happened today..."
@@ -168,13 +168,13 @@ export default function JournalPage() {
           {error && <p className="text-sm text-red-600">{error}</p>}
 
           <div className="flex gap-2">
-            <button className="border rounded-lg px-4 py-2 font-semibold">
+            <button className="bg-purple-600 text-white rounded-lg px-4 py-2 font-semibold hover:bg-purple-700 transition">
               {editingId ? "Save changes" : "Add entry"}
             </button>
             {editingId && (
               <button
                 type="button"
-                className="border rounded-lg px-4 py-2"
+                className="border rounded-lg px-4 py-2 hover:bg-purple-50 transition"
                 onClick={cancelEdit}
               >
                 Cancel
@@ -193,21 +193,21 @@ export default function JournalPage() {
         )}
 
         {entries.map((e) => (
-          <div key={e.id} className="border rounded-xl p-4">
+          <div key={e.id} className="border rounded-xl p-4 hover:bg-purple-50 transition">
             <div className="flex items-baseline justify-between gap-3">
-              <div className="font-semibold">Mood: {e.mood}</div>
+              <div className="font-semibold text-purple-700">Mood: {e.mood}</div>
               <div className="text-xs opacity-60">
-                {new Date(e.createdAt).toISOString().replace("T", " ").slice(0, 19) + "Z"}
+               {new Date(e.createdAt).toLocaleString()}
               </div>
             </div>
 
             <p className="mt-2 whitespace-pre-wrap">{e.entryText}</p>
 
             <div className="mt-3 flex gap-2">
-              <button className="border rounded-lg px-3 py-1" onClick={() => startEdit(e)}>
+              <button className="border rounded-lg px-3 py-1 hover:bg-purple-50 transition" onClick={() => startEdit(e)}>
                 Edit
               </button>
-              <button className="border rounded-lg px-3 py-1" onClick={() => remove(e.id)}>
+              <button className="border rounded-lg px-3 py-1 hover:bg-purple-50 transition" onClick={() => remove(e.id)}>
                 Delete
               </button>
             </div>
