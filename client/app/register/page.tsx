@@ -28,6 +28,7 @@ function friendlyRegisterError(msg: string) {
   if (lower.includes("age") && (lower.includes("12") || lower.includes("17"))) {
     return "Age must be between 12 and 17.";
   }
+  
   if (lower.includes("email") && lower.includes("valid")) {
     return "Please enter a valid email address.";
   }
@@ -44,7 +45,7 @@ export default function RegisterPage() {
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [age, setAge] = useState<number>(14);
+  const [age, setAge] = useState<number | null>(14);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -65,8 +66,17 @@ if (password.trim().length < 8) {
   setLoading(false);
   return;
 }
+if (age === null) {
+  setError("Please enter your age (12–17).");
+  setLoading(false);
+  return;
+}
 
-
+if (!Number.isInteger(age) || age < 12 || age > 17) {
+  setError("Age must be between 12 and 17.");
+  setLoading(false);
+  return;
+}
     try {
       const data = await apiFetch<RegisterResponse>("/api/auth/register", {
         method: "POST",
@@ -75,7 +85,7 @@ if (password.trim().length < 8) {
           email,
           password,
           age,
-          interests: [], // interests onboarding can happen after login
+          interests: [], 
         }),
       });
 
@@ -114,13 +124,22 @@ if (password.trim().length < 8) {
         <div>
           <label className="block text-sm mb-1">Age (12–17)</label>
           <input
-            type="number"
-            min={12}
-            max={17}
-            className="w-full border rounded-lg p-2"
-            value={age}
-            onChange={(e) => setAge(Number(e.target.value))}
-          />
+  type="number"
+  min={12}
+  max={17}
+  step={1}
+  className="w-full border rounded-lg p-2"
+  value={age ?? ""} //  allows empty
+  onChange={(e) => {
+    const v = e.target.value;
+    if (v === "") {
+      setAge(null); //  empty stays empty (not 0)
+    } else {
+      setAge(Number(v)); //  normal number
+    }
+  }}
+/>
+
         </div>
 
         <div>
