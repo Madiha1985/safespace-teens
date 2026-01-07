@@ -14,15 +14,13 @@ exports.register = async (req, res) => {
   try {
     const { username, email, password, age, interests } = req.body;
 
-    if (!username || !email || !password || age === undefined) {
+    if (!username || !email || !password || age === undefined || age === null) {
       return res.status(400).json({ message: "username, email, password, and age are required." });
     }
     const ageNum = Number(age);
 
    if (!Number.isInteger(ageNum) || ageNum < 12 || ageNum > 17) {
-  setError("Age must be between 12 and 17.");
-  setLoading(false);
-  return;
+   return res.status(400).json({ message: "Age must be between 12 and 17." });
    }
 
     if (password.length < 8) {
