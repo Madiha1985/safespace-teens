@@ -14,13 +14,20 @@ connectDB();
 // Create HTTP server
 const server = http.createServer(app);
 
-// Create Socket.io server
+// Create Socket.io server for development and production
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.CLIENT_URL, 
+].filter(Boolean);
+
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
   },
 });
+
 
 // Socket.io JWT auth middleware
 io.use((socket, next) => {
