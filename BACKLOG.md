@@ -1,40 +1,44 @@
 # SafeSpace Teens – Backlog
 
-This backlog tracks the project work in three sprints (6 weeks).
+This backlog tracks the completed work for the SafeSpace Teens degree project.
 
-## Sprint 1 (Weeks 1–2) – Setup & Foundation
-- [x] Create GitHub repo and initialize project structure (client/server)
-- [x] Setup Next.js frontend (TypeScript + Tailwind)
-- [x] Setup Express backend and folder structure
-- [x] Connect MongoDB Atlas (Mongoose)
+## Sprint 1 – Setup & Foundation (Completed)
+- [x] Create GitHub repository and project structure (client/server)
+- [x] Set up Next.js frontend with TypeScript and Tailwind CSS
+- [x] Set up Express backend with MVC folder structure
+- [x] Connect MongoDB Atlas using Mongoose
 - [x] Implement authentication (register/login with bcrypt + JWT)
-- [x] Add protected routes (JWT middleware)
-- [x] Add interests update endpoint (`PUT /api/users/me/interests`)
+- [x] Add protected REST routes using JWT middleware
+- [x] Enforce age restriction (12–17)
+- [x] Implement user interests management
 
-## Sprint 2 (Weeks 3–4) – Real-time Chat (Core Feature)
-- [x] Setup Socket.io backend
-- [x] Secure Socket.io with JWT (only authenticated users can connect)
-- [x] Implement room join/leave and room messaging
+## Sprint 2 – Real-time Communication (Completed)
+- [x] Set up Socket.io backend
+- [x] Secure Socket.io connections using JWT authentication
+- [x] Implement room-based join/leave logic
+- [x] Implement real-time chat messaging
 - [x] Persist chat messages in MongoDB
-- [x] Add chat history endpoint (`GET /api/rooms/:roomId/messages`)
-- [ ] Add rate limiting / basic spam protection (optional)
-- [ ] Add reporting endpoint for messages (optional)
+- [x] Load chat history per room
+- [x] Implement system messages (join/leave/disconnect)
+- [x] Implement collaborative drawing per room
 
-## Sprint 3 (Weeks 5–6) – Frontend Features & Polish
-### Frontend
-- [ ] Build chat UI (rooms list, history loading, real-time updates)
-- [ ] Build reading hub UI (reviews list + create review)
-- [ ] Build feeling journal UI (private entries + mood tracking)
+## Sprint 3 – Frontend Features & Polish (Completed)
+### Frontend Features
+- [x] Chat UI with room list and real-time updates
+- [x] Reading hub with reviews, comments, and star ratings
+- [x] Private feeling journal
+- [x] Profile page with avatar selection and interests
+- [x] Dashboard with personalized content
 
-### UX / Quality
-- [ ] Accessibility checks (keyboard nav, labels, contrast, focus states)
-- [ ] Basic content moderation (word filter + report UI)
-- [ ] Responsive UI refinement (mobile-first)
-- [ ] Testing (manual flows + basic automated tests)
-- [ ] Deployment (Vercel frontend + Render/Railway backend + Atlas)
-- [ ] Documentation polish (README + final report updates)
+### Quality & Delivery
+- [x] Manual testing of all user flows
+- [x] Automated backend tests (Jest + Supertest)
+- [x] Responsive UI using Tailwind CSS
+- [x] Deployment (Vercel frontend, Render backend, MongoDB Atlas)
+- [x] Project documentation (README)
 
-## Future Enhancements (After MVP)
-- [ ] Forgot password flow (email-based reset token)
-- [ ] AI assistant for study tips (safe version, server-side)
-- [ ] More moderation tools (mute/timeout, flagged content queue)
+## Future Enhancements (Post-MVP)
+- [ ] Advanced moderation tools (mute, report queue)
+- [ ] Rate limiting and spam protection
+- [ ] Forgot password flow
+- [ ] AI-assisted study support

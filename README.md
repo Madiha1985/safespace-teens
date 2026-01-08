@@ -85,3 +85,8 @@ Run backend tests locally:
 ```bash
 cd server
 npm test
+## Live Demo
+https://safespace-teens.vercel.app
+
+## Repository
+https://github.com/Madiha1985/safespace-teens
